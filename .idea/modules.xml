@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/DrawApp.iml" filepath="$PROJECT_DIR$/.idea/DrawApp.iml" />
-      <module fileurl="file://D:\AndroidStudioProjects\DrawApp\DrawApp.iml" filepath="D:\AndroidStudioProjects\DrawApp\DrawApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DrawApp.iml" filepath="$PROJECT_DIR$/DrawApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\AndroidStudioProjects\DrawApp\app\app.iml" filepath="D:\AndroidStudioProjects\DrawApp\app\app.iml" />
     </modules>
   </component>
 </project>
