@@ -1,5 +1,8 @@
 package com.lorane.drawapp;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,8 +20,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private DrawingView drawView;
-    private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn;
+    private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn, shapeBtn;
     private float smallBrush, mediumBrush, largeBrush;
+
+    private SensorManager mSensorManager;
+    private ShakeEventListener mSensorListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         saveBtn = (ImageButton)findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
+
+        shapeBtn = (ImageButton)findViewById(R.id.shape_btn);
+        shapeBtn.setOnClickListener(this);
+
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensorListener = new ShakeEventListener();
+
+        mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
+
+            public void onShake() {
+                drawView.startNew();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(mSensorListener,
+                mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    protected void onPause() {
+        mSensorManager.unregisterListener(mSensorListener);
+        super.onPause();
     }
 
     public void paintClicked(View view){
@@ -195,6 +228,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
             saveDialog.show();
+        }
+        else if(view.getId()==R.id.shape_btn){
+            //draw shape
+            final Dialog shapeDialog = new Dialog(this);
+            shapeDialog.setTitle("Choose Shape:");
+            shapeDialog.setContentView(R.layout.shape_chooser);
+
+            ImageButton starBtn = (ImageButton)shapeDialog.findViewById(R.id.star_shape);
+            starBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    // Add code pour afficher shape
+                    shapeDialog.dismiss();
+                }
+            });
+
+            shapeDialog.show();
         }
     }
 }
