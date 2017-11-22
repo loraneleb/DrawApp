@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 
             public void onShake() {
-                drawView.startNew();
+                StartNew();
             }
         });
     }
@@ -181,21 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(view.getId()==R.id.new_btn){
             //new button
-            AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
-            newDialog.setTitle("New drawing");
-            newDialog.setMessage("Start new drawing (you will lose the current drawing)?");
-            newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
-                    drawView.startNew();
-                    dialog.dismiss();
-                }
-            });
-            newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
-                    dialog.cancel();
-                }
-            });
-            newDialog.show();
+            StartNew();
         }
         else if(view.getId()==R.id.save_btn){
             //save drawing
@@ -246,5 +232,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             shapeDialog.show();
         }
+    }
+
+    public void StartNew(){
+        /*AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
+        newDialog.setTitle("New drawing:");
+        newDialog.setMessage("Start new drawing (you will lose the current drawing)?");
+        newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int which){
+                drawView.startNew();
+                dialog.dismiss();
+            }
+        });
+        newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int which){
+                dialog.cancel();
+            }
+        });
+        newDialog.show();*/
+
+        final Dialog newDialog = new Dialog(this);
+        newDialog.setTitle("New drawing:");
+        newDialog.setContentView(R.layout.new_draw);
+
+        ImageButton yesBtn = newDialog.findViewById(R.id.yesBtn);
+        yesBtn.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                drawView.startNew();
+                newDialog.dismiss();
+            }
+        });
+
+        ImageButton noBtn = newDialog.findViewById(R.id.noBtn);
+        noBtn.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                newDialog.dismiss();
+            }
+        });
+
+        newDialog.show();
     }
 }
