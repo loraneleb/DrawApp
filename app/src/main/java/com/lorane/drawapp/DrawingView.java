@@ -133,7 +133,7 @@ public class DrawingView extends View {
         else drawPaint.setXfermode(null);
     }
 
-    public void startNew(){
+    public void eraseDraw(){
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         invalidate();
     }

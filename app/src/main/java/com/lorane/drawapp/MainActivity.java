@@ -10,9 +10,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import java.util.UUID;
 import android.provider.MediaStore;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
@@ -20,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private DrawingView drawView;
-    private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn, shapeBtn;
+    private ImageButton currPaint, drawBtn, eraseBtn, saveBtn, shapeBtn, newBtn ;
     private float smallBrush, mediumBrush, largeBrush;
 
     private SensorManager mSensorManager;
@@ -63,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 
             public void onShake() {
-                StartNew();
+                EraseDraw();
             }
         });
     }
@@ -181,16 +179,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(view.getId()==R.id.new_btn){
             //new button
-            StartNew();
+
         }
         else if(view.getId()==R.id.save_btn){
-            //save drawing
-            AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
-            saveDialog.setTitle("Save drawing");
-            saveDialog.setMessage("Save drawing to device Gallery?");
-            saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
-                    //save drawing
+            final Dialog saveDialog = new Dialog(this);
+            saveDialog.setTitle("Save drawing:");
+            saveDialog.setContentView(R.layout.save_draw);
+
+            ImageButton yesBtn = saveDialog.findViewById(R.id.yesBtn);
+            yesBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
                     drawView.setDrawingCacheEnabled(true);
                     String imgSaved = MediaStore.Images.Media.insertImage(
                             getContentResolver(), drawView.getDrawingCache(),
@@ -206,13 +205,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         unsavedToast.show();
                     }
                     drawView.destroyDrawingCache();
+                    saveDialog.dismiss();
                 }
             });
-            saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
-                    dialog.cancel();
+
+            ImageButton noBtn = saveDialog.findViewById(R.id.noBtn);
+            noBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    saveDialog.dismiss();
                 }
             });
+
             saveDialog.show();
         }
         else if(view.getId()==R.id.shape_btn){
@@ -234,44 +238,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void StartNew(){
-        /*AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
-        newDialog.setTitle("New drawing:");
-        newDialog.setMessage("Start new drawing (you will lose the current drawing)?");
-        newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
-            public void onClick(DialogInterface dialog, int which){
-                drawView.startNew();
-                dialog.dismiss();
-            }
-        });
-        newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-            public void onClick(DialogInterface dialog, int which){
-                dialog.cancel();
-            }
-        });
-        newDialog.show();*/
+    public void EraseDraw(){
+        final Dialog eraseDialog = new Dialog(this);
+        eraseDialog.setTitle("New drawing:");
+        eraseDialog.setContentView(R.layout.erase_draw);
 
-        final Dialog newDialog = new Dialog(this);
-        newDialog.setTitle("New drawing:");
-        newDialog.setContentView(R.layout.new_draw);
-
-        ImageButton yesBtn = newDialog.findViewById(R.id.yesBtn);
+        ImageButton yesBtn = eraseDialog.findViewById(R.id.yesBtn);
         yesBtn.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View v) {
-                drawView.startNew();
-                newDialog.dismiss();
+                drawView.eraseDraw();
+                eraseDialog.dismiss();
             }
         });
 
-        ImageButton noBtn = newDialog.findViewById(R.id.noBtn);
+        ImageButton noBtn = eraseDialog.findViewById(R.id.noBtn);
         noBtn.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View v) {
-                newDialog.dismiss();
+                eraseDialog.dismiss();
             }
         });
 
-        newDialog.show();
+        eraseDialog.show();
     }
 }
