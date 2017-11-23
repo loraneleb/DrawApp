@@ -1,8 +1,11 @@
 package com.lorane.drawapp;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.MotionEvent;
@@ -29,6 +32,8 @@ public class DrawingView extends View {
     private Canvas drawCanvas;
     //canvas bitmap
     private Bitmap canvasBitmap;
+    private Bitmap etoile = BitmapFactory.decodeResource(getResources(),
+    R.drawable.etoile);
 
     private float brushSize, lastBrushSize;
 
@@ -86,6 +91,7 @@ public class DrawingView extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                drawCanvas.drawBitmap(etoile, touchX-etoile.getWidth()/2, touchY-etoile.getHeight()/2, null);
                 drawPath.moveTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_MOVE:
