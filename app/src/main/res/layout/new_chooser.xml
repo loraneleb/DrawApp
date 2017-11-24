@@ -7,19 +7,19 @@
     android:orientation="horizontal" >
 
     <ImageButton
-        android:id="@+id/star_shape"
+        android:id="@+id/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:contentDescription="@string/star"
-        android:src="@drawable/star70"/>
+        android:src="@drawable/white70"/>
     <ImageButton
-        android:id="@+id/space_ship_shape"
+        android:id="@+id/space"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:contentDescription="@string/space_ship"
-        android:src="@drawable/space_ship70"/>
+        android:src="@drawable/espace70"/>
 
 
 

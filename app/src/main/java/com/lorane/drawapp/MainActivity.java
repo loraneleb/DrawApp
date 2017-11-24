@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private DrawingView drawView;
-    private ImageButton currPaint, drawBtn, eraseBtn, saveBtn, shapeBtn, newBtn ;
+    private ImageButton currPaint, drawBtn, eraseBtn, saveBtn, shapeBtn, newBtn, returnBtn ;
     private float smallBrush, mediumBrush, largeBrush;
 
     private SensorManager mSensorManager;
@@ -57,13 +57,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorListener = new ShakeEventListener();
-
         mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 
             public void onShake() {
                 EraseDraw();
             }
         });
+
+        returnBtn = (ImageButton)findViewById(R.id.return_btn);
+        returnBtn.setOnClickListener(this);
     }
 
     @Override
@@ -113,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     drawView.setBrushSize(smallBrush);
                     drawView.setLastBrushSize(smallBrush);
                     drawView.setErase(false);
+                    drawView.shapeOff();
                     brushDialog.dismiss();
                 }
             });
@@ -124,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     drawView.setBrushSize(mediumBrush);
                     drawView.setLastBrushSize(mediumBrush);
                     drawView.setErase(false);
+                    drawView.shapeOff();
                     brushDialog.dismiss();
                 }
             });
@@ -135,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     drawView.setBrushSize(largeBrush);
                     drawView.setLastBrushSize(largeBrush);
                     drawView.setErase(false);
+                    drawView.shapeOff();
                     brushDialog.dismiss();
                 }
             });
@@ -153,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onClick(View v) {
                     drawView.setErase(true);
                     drawView.setBrushSize(smallBrush);
+                    drawView.shapeOff();
                     brushDialog.dismiss();
                 }
             });
@@ -162,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onClick(View v) {
                     drawView.setErase(true);
                     drawView.setBrushSize(mediumBrush);
+                    drawView.shapeOff();
                     brushDialog.dismiss();
                 }
             });
@@ -171,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onClick(View v) {
                     drawView.setErase(true);
                     drawView.setBrushSize(largeBrush);
+                    drawView.shapeOff();
                     brushDialog.dismiss();
                 }
             });
@@ -178,8 +186,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             brushDialog.show();
         }
         else if(view.getId()==R.id.new_btn){
-            //new button
+            //new draw
+            final Dialog newDialog = new Dialog(this);
+            newDialog.setTitle("Choose Shape:");
+            newDialog.setContentView(R.layout.new_chooser);
 
+            ImageButton whiteBtn = (ImageButton)newDialog.findViewById(R.id.white);
+            whiteBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    drawView.onNew(R.id.white);
+                    newDialog.dismiss();
+                }
+            });
+
+            ImageButton spaceBtn = (ImageButton)newDialog.findViewById(R.id.space);
+            spaceBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    drawView.onNew(R.id.space);
+                    newDialog.dismiss();
+                }
+            });
+
+            newDialog.show();
         }
         else if(view.getId()==R.id.save_btn){
             final Dialog saveDialog = new Dialog(this);
@@ -229,12 +259,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             starBtn.setOnClickListener(new OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    // Add code pour afficher shape
+                    drawView.shapeOn();
+                    drawView.setShape(R.id.star_shape);
+                    shapeDialog.dismiss();
+                }
+            });
+
+            ImageButton spaceShipBtn = (ImageButton)shapeDialog.findViewById(R.id.space_ship_shape);
+            spaceShipBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    drawView.shapeOn();
+                    drawView.setShape(R.id.space_ship_shape);
                     shapeDialog.dismiss();
                 }
             });
 
             shapeDialog.show();
+        }
+        else if(view.getId()==R.id.return_btn){
+            drawView.onReturn();
         }
     }
 
@@ -248,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 drawView.eraseDraw();
+                drawView.shapeOff();
                 eraseDialog.dismiss();
             }
         });

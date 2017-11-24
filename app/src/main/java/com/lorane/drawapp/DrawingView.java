@@ -16,6 +16,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.TypedValue;
 
+import java.util.ArrayList;
+
 /**
  * Created by Lorane on 21/11/2017.
  */
@@ -32,12 +34,13 @@ public class DrawingView extends View {
     private Canvas drawCanvas;
     //canvas bitmap
     private Bitmap canvasBitmap;
-    private Bitmap etoile = BitmapFactory.decodeResource(getResources(),
-    R.drawable.etoile);
 
     private float brushSize, lastBrushSize;
 
     private boolean erase=false;
+
+    private boolean isBrush;
+    private Bitmap shapeBitmap;
 
     public DrawingView(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -62,6 +65,8 @@ public class DrawingView extends View {
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
 
         canvasPaint = new Paint(Paint.DITHER_FLAG);
+
+        isBrush = true;
     }
 
     @Override
@@ -77,7 +82,6 @@ public class DrawingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         //draw view
-
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
         canvas.drawPath(drawPath, drawPaint);
     }
@@ -91,15 +95,20 @@ public class DrawingView extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                drawCanvas.drawBitmap(etoile, touchX-etoile.getWidth()/2, touchY-etoile.getHeight()/2, null);
-                drawPath.moveTo(touchX, touchY);
+                if(isBrush)
+                    drawPath.moveTo(touchX, touchY);
+                else
+                    drawCanvas.drawBitmap(shapeBitmap, touchX-shapeBitmap.getWidth()/2, touchY-shapeBitmap.getHeight()/2, null);
                 break;
             case MotionEvent.ACTION_MOVE:
-                drawPath.lineTo(touchX, touchY);
+                if(isBrush)
+                    drawPath.lineTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_UP:
-                drawCanvas.drawPath(drawPath, drawPaint);
-                drawPath.reset();
+                if(isBrush) {
+                    drawCanvas.drawPath(drawPath, drawPaint);
+                    drawPath.reset();
+                }
                 break;
             default:
                 return false;
@@ -141,6 +150,45 @@ public class DrawingView extends View {
 
     public void eraseDraw(){
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        invalidate();
+    }
+
+    public void shapeOn(){
+        isBrush = false;
+    }
+
+    public void shapeOff(){
+        isBrush = true;
+    }
+
+    public void setShape(int id){
+        switch (id){
+            case R.id.star_shape:
+                shapeBitmap= BitmapFactory.decodeResource(getResources(), R.drawable.star70);
+                break;
+            case R.id.space_ship_shape:
+                shapeBitmap= BitmapFactory.decodeResource(getResources(), R.drawable.space_ship70);
+                break;
+            default:
+                shapeBitmap = null;
+                break;
+        }
+    }
+
+    public void onReturn(){
+        //TODO
+    }
+
+    public void onNew(int id){
+        drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        switch(id){
+            case R.id.space:
+                drawCanvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.espace), 0, 0, null);
+                break;
+            case R.id.white:
+            default:
+                break;
+        }
         invalidate();
     }
 }
