@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private DrawingView drawView;
-    private ImageButton currPaint, drawBtn, eraseBtn, saveBtn, shapeBtn, newBtn, returnBtn ;
+    private ImageButton currPaint, drawBtn, eraseBtn, saveBtn, shapeBtn, newBtn, undoBtn, redoBtn;
     private float smallBrush, mediumBrush, largeBrush;
 
     private SensorManager mSensorManager;
@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        drawView = (DrawingView)findViewById(R.id.drawing);
-        LinearLayout paintLayout = (LinearLayout)findViewById(R.id.paint_colors);
+        drawView = findViewById(R.id.drawing);
+        LinearLayout paintLayout = findViewById(R.id.paint_colors);
         currPaint = (ImageButton)paintLayout.getChildAt(0);
         currPaint.setImageDrawable(getResources().getDrawable(R.drawable.paint_pressed));
 
@@ -38,21 +38,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mediumBrush = getResources().getInteger(R.integer.medium_size);
         largeBrush = getResources().getInteger(R.integer.large_size);
 
-        drawBtn = (ImageButton)findViewById(R.id.draw_btn);
+        drawBtn = findViewById(R.id.draw_btn);
         drawBtn.setOnClickListener(this);
 
         drawView.setBrushSize(mediumBrush);
 
-        eraseBtn = (ImageButton)findViewById(R.id.erase_btn);
+        eraseBtn = findViewById(R.id.erase_btn);
         eraseBtn.setOnClickListener(this);
 
-        newBtn = (ImageButton)findViewById(R.id.new_btn);
+        newBtn = findViewById(R.id.new_btn);
         newBtn.setOnClickListener(this);
 
-        saveBtn = (ImageButton)findViewById(R.id.save_btn);
+        saveBtn = findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
 
-        shapeBtn = (ImageButton)findViewById(R.id.shape_btn);
+        shapeBtn = findViewById(R.id.shape_btn);
         shapeBtn.setOnClickListener(this);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -64,8 +64,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        returnBtn = (ImageButton)findViewById(R.id.return_btn);
-        returnBtn.setOnClickListener(this);
+        undoBtn = findViewById(R.id.undo_btn);
+        undoBtn.setOnClickListener(this);
+
+        redoBtn = findViewById(R.id.redo_btn);
+        redoBtn.setOnClickListener(this);
     }
 
     @Override
@@ -108,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             brushDialog.setTitle("Brush size:");
             brushDialog.setContentView(R.layout.brush_chooser);
 
-            ImageButton smallBtn = (ImageButton)brushDialog.findViewById(R.id.small_brush);
+            ImageButton smallBtn = brushDialog.findViewById(R.id.small_brush);
             smallBtn.setOnClickListener(new OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -120,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
-            ImageButton mediumBtn = (ImageButton)brushDialog.findViewById(R.id.medium_brush);
+            ImageButton mediumBtn = brushDialog.findViewById(R.id.medium_brush);
             mediumBtn.setOnClickListener(new OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -132,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
-            ImageButton largeBtn = (ImageButton)brushDialog.findViewById(R.id.large_brush);
+            ImageButton largeBtn = brushDialog.findViewById(R.id.large_brush);
             largeBtn.setOnClickListener(new OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -152,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             brushDialog.setTitle("Eraser size:");
             brushDialog.setContentView(R.layout.brush_chooser);
 
-            ImageButton smallBtn = (ImageButton)brushDialog.findViewById(R.id.small_brush);
+            ImageButton smallBtn = brushDialog.findViewById(R.id.small_brush);
             smallBtn.setOnClickListener(new OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -162,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     brushDialog.dismiss();
                 }
             });
-            ImageButton mediumBtn = (ImageButton)brushDialog.findViewById(R.id.medium_brush);
+            ImageButton mediumBtn = brushDialog.findViewById(R.id.medium_brush);
             mediumBtn.setOnClickListener(new OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -172,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     brushDialog.dismiss();
                 }
             });
-            ImageButton largeBtn = (ImageButton)brushDialog.findViewById(R.id.large_brush);
+            ImageButton largeBtn = brushDialog.findViewById(R.id.large_brush);
             largeBtn.setOnClickListener(new OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -191,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             newDialog.setTitle("Choose Shape:");
             newDialog.setContentView(R.layout.new_chooser);
 
-            ImageButton whiteBtn = (ImageButton)newDialog.findViewById(R.id.white);
+            ImageButton whiteBtn = newDialog.findViewById(R.id.white);
             whiteBtn.setOnClickListener(new OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -200,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
-            ImageButton spaceBtn = (ImageButton)newDialog.findViewById(R.id.space);
+            ImageButton spaceBtn = newDialog.findViewById(R.id.space);
             spaceBtn.setOnClickListener(new OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -255,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             shapeDialog.setTitle("Choose Shape:");
             shapeDialog.setContentView(R.layout.shape_chooser);
 
-            ImageButton starBtn = (ImageButton)shapeDialog.findViewById(R.id.star_shape);
+            ImageButton starBtn = shapeDialog.findViewById(R.id.star_shape);
             starBtn.setOnClickListener(new OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -265,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
-            ImageButton spaceShipBtn = (ImageButton)shapeDialog.findViewById(R.id.space_ship_shape);
+            ImageButton spaceShipBtn = shapeDialog.findViewById(R.id.space_ship_shape);
             spaceShipBtn.setOnClickListener(new OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -277,8 +280,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             shapeDialog.show();
         }
-        else if(view.getId()==R.id.return_btn){
-            drawView.onReturn();
+        else if(view.getId()==R.id.undo_btn){
+            drawView.onUndo();
+        }
+        else if(view.getId()==R.id.redo_btn){
+            drawView.onRedo();
         }
     }
 

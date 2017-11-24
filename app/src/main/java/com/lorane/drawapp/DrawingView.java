@@ -4,8 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.MotionEvent;
@@ -42,6 +40,11 @@ public class DrawingView extends View {
     private boolean isBrush;
     private Bitmap shapeBitmap;
 
+    private Bitmap background;
+
+    private ArrayList<Object> draws;
+    private ArrayList<Object> undoneDraws;
+
     public DrawingView(Context context, AttributeSet attrs){
         super(context, attrs);
         setupDrawing();
@@ -67,6 +70,9 @@ public class DrawingView extends View {
         canvasPaint = new Paint(Paint.DITHER_FLAG);
 
         isBrush = true;
+        background = BitmapFactory.decodeResource(getResources(), R.drawable.white);
+        draws = new ArrayList<>();
+        undoneDraws = new ArrayList<>();
     }
 
     @Override
@@ -83,6 +89,22 @@ public class DrawingView extends View {
     protected void onDraw(Canvas canvas) {
         //draw view
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
+
+        canvas.drawBitmap(background, 0, 0, null);
+
+        for(int i = 0; i < draws.size(); i++){
+            Object o = draws.get(i);
+            if(o.getClass() == PathStruct.class){
+                PathStruct pathStruct = (PathStruct) o;
+                canvas.drawPath(pathStruct.GetPath(), pathStruct.GetPaint());
+            }
+            else if(o.getClass() == ShapeStruct.class){
+                ShapeStruct shapeStruct = (ShapeStruct) o;
+                Bitmap shape = shapeStruct.GetShape();
+                canvas.drawBitmap(shape, shapeStruct.GetX()-shape.getWidth()/2, shapeStruct.GetY()-shape.getHeight()/2, null);
+            }
+        }
+
         canvas.drawPath(drawPath, drawPaint);
     }
 
@@ -95,10 +117,14 @@ public class DrawingView extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if(isBrush)
+                undoneDraws.clear();
+                if(isBrush) {
                     drawPath.moveTo(touchX, touchY);
-                else
-                    drawCanvas.drawBitmap(shapeBitmap, touchX-shapeBitmap.getWidth()/2, touchY-shapeBitmap.getHeight()/2, null);
+                }
+                else {
+                    drawCanvas.drawBitmap(shapeBitmap, touchX - shapeBitmap.getWidth() / 2, touchY - shapeBitmap.getHeight() / 2, null);
+                    draws.add(new ShapeStruct(shapeBitmap, touchX, touchY));
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 if(isBrush)
@@ -107,6 +133,9 @@ public class DrawingView extends View {
             case MotionEvent.ACTION_UP:
                 if(isBrush) {
                     drawCanvas.drawPath(drawPath, drawPaint);
+                    Path newPath = new Path(drawPath);
+                    Paint newPaint = new Paint(drawPaint);
+                    draws.add(new PathStruct(newPath, newPaint));
                     drawPath.reset();
                 }
                 break;
@@ -128,6 +157,7 @@ public class DrawingView extends View {
 
     public void setBrushSize(float newSize){
         //update size
+        isBrush = true;
         float pixelAmount = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 newSize, getResources().getDisplayMetrics());
         brushSize=pixelAmount;
@@ -175,17 +205,33 @@ public class DrawingView extends View {
         }
     }
 
-    public void onReturn(){
-        //TODO
+    public void onUndo(){
+        if (draws.size() > 0){
+            undoneDraws.add(draws.remove(draws.size()-1));
+            invalidate();
+        }
+    }
+
+    public void onRedo(){
+        if (undoneDraws.size() > 0){
+            draws.add(undoneDraws.remove(undoneDraws.size()-1));
+            invalidate();
+        }
     }
 
     public void onNew(int id){
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         switch(id){
             case R.id.space:
-                drawCanvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.espace), 0, 0, null);
+                background = BitmapFactory.decodeResource(getResources(), R.drawable.espace);
+                draws.clear();
+                undoneDraws.clear();
                 break;
             case R.id.white:
+                background = BitmapFactory.decodeResource(getResources(), R.drawable.white);
+                draws.clear();
+                undoneDraws.clear();
+                break;
             default:
                 break;
         }

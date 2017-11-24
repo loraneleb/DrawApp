@@ -7,12 +7,12 @@ package com.lorane.drawapp;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-public class DrawStruct {
+public class PathStruct {
 
     private Path path;
     private Paint paint;
 
-    public DrawStruct(Path newPath, Paint newPaint){
+    public PathStruct(Path newPath, Paint newPaint){
         path = newPath;
         paint = newPaint;
     }
