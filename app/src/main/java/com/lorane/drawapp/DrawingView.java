@@ -199,6 +199,28 @@ public class DrawingView extends View {
             case R.id.space_ship_shape:
                 shapeBitmap= BitmapFactory.decodeResource(getResources(), R.drawable.space_ship70);
                 break;
+            case R.id.moon_shape:
+                shapeBitmap= BitmapFactory.decodeResource(getResources(), R.drawable.moon70);
+                break;
+            case R.id.cloud_shape:
+                shapeBitmap= BitmapFactory.decodeResource(getResources(), R.drawable.cloud);
+                break;
+            case R.id.dog_shape:
+                shapeBitmap= BitmapFactory.decodeResource(getResources(), R.drawable.dog70);
+                break;
+            case R.id.cat_shape:
+                shapeBitmap= BitmapFactory.decodeResource(getResources(), R.drawable.cat70);
+                break;
+            case R.id.fish_shape:
+                shapeBitmap= BitmapFactory.decodeResource(getResources(), R.drawable.fish70);
+                break;
+                case R.id.bubbles_shape:
+                shapeBitmap= BitmapFactory.decodeResource(getResources(), R.drawable.bubbles70);
+                break;
+            case R.id.shell_shape:
+                shapeBitmap= BitmapFactory.decodeResource(getResources(), R.drawable.shell70);
+                break;
+
             default:
                 shapeBitmap = null;
                 break;
@@ -229,6 +251,22 @@ public class DrawingView extends View {
                 break;
             case R.id.white:
                 background = BitmapFactory.decodeResource(getResources(), R.drawable.white);
+                draws.clear();
+                undoneDraws.clear();
+                break;
+
+            case R.id.beach:
+                background = BitmapFactory.decodeResource(getResources(), R.drawable.beach);
+                draws.clear();
+                undoneDraws.clear();
+                break;
+            case R.id.plain:
+                background = BitmapFactory.decodeResource(getResources(), R.drawable.plain);
+                draws.clear();
+                undoneDraws.clear();
+                break;
+            case R.id.sea:
+                background = BitmapFactory.decodeResource(getResources(), R.drawable.sea);
                 draws.clear();
                 undoneDraws.clear();
                 break;

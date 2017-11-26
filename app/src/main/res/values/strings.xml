@@ -11,4 +11,14 @@
     <string name="lrg">Large</string>
     <string name="star">Star</string>
     <string name="space_ship">Space ship</string>
+    <string name="moon">Moon</string>
+    <string name="cloud">Cloud</string>
+    <string name="dog">Dog</string>
+    <string name="cat">Cat</string>
+    <string name="beach">Beach</string>
+    <string name="plain">Plain</string>
+    <string name="sea">Sea</string>
+    <string name="fish">Fish</string>
+    <string name="bubbles">Bubbles</string>
+    <string name="shell">Shell</string>
 </resources>

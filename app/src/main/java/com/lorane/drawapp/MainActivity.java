@@ -212,6 +212,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
+            ImageButton beachBtn = newDialog.findViewById(R.id.beach);
+           beachBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    drawView.onNew(R.id.beach);
+                    newDialog.dismiss();
+                }
+            });
+
+            ImageButton plainBtn = newDialog.findViewById(R.id.plain);
+           plainBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    drawView.onNew(R.id.plain);
+                    newDialog.dismiss();
+                }
+            });
+            ImageButton seaBtn = newDialog.findViewById(R.id.sea);
+            seaBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    drawView.onNew(R.id.sea);
+                    newDialog.dismiss();
+                }
+            });
+
+
+
             newDialog.show();
         }
         else if(view.getId()==R.id.save_btn){
@@ -274,6 +302,76 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onClick(View v) {
                     drawView.shapeOn();
                     drawView.setShape(R.id.space_ship_shape);
+                    shapeDialog.dismiss();
+                }
+            });
+
+            ImageButton moonBtn = shapeDialog.findViewById(R.id.moon_shape);
+            moonBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    drawView.shapeOn();
+                    drawView.setShape(R.id.moon_shape);
+                    shapeDialog.dismiss();
+                }
+            });
+
+            ImageButton cloudBtn = shapeDialog.findViewById(R.id.cloud_shape);
+            cloudBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    drawView.shapeOn();
+                    drawView.setShape(R.id.cloud_shape);
+                    shapeDialog.dismiss();
+                }
+            });
+
+            ImageButton dogBtn = shapeDialog.findViewById(R.id.dog_shape);
+            dogBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    drawView.shapeOn();
+                    drawView.setShape(R.id.dog_shape);
+                    shapeDialog.dismiss();
+                }
+            });
+
+            ImageButton catBtn = shapeDialog.findViewById(R.id.cat_shape);
+            catBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    drawView.shapeOn();
+                    drawView.setShape(R.id.cat_shape);
+                    shapeDialog.dismiss();
+                }
+            });
+
+            ImageButton fishBtn = shapeDialog.findViewById(R.id.fish_shape);
+            fishBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    drawView.shapeOn();
+                    drawView.setShape(R.id.fish_shape);
+                    shapeDialog.dismiss();
+                }
+            });
+
+            ImageButton bubblesBtn = shapeDialog.findViewById(R.id.bubbles_shape);
+            bubblesBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    drawView.shapeOn();
+                    drawView.setShape(R.id.bubbles_shape);
+                    shapeDialog.dismiss();
+                }
+            });
+
+            ImageButton shellBtn = shapeDialog.findViewById(R.id.shell_shape);
+            shellBtn.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    drawView.shapeOn();
+                    drawView.setShape(R.id.shell_shape);
                     shapeDialog.dismiss();
                 }
             });

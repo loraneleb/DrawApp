@@ -4,23 +4,94 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="horizontal" >
+    android:orientation="vertical">
 
-    <ImageButton
-        android:id="@+id/star_shape"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:contentDescription="@string/star"
-        android:src="@drawable/star70"/>
-    <ImageButton
-        android:id="@+id/space_ship_shape"
-        android:layout_width="wrap_content"
+        android:gravity="bottom|center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/star_shape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/star"
+            android:src="@drawable/star70" />
+
+        <ImageButton
+            android:id="@+id/moon_shape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/moon"
+            android:src="@drawable/moon70" />
+
+        <ImageButton
+            android:id="@+id/dog_shape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/cloud"
+            android:src="@drawable/dog70" />
+
+        <ImageButton
+            android:id="@+id/cloud_shape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/cloud"
+            android:src="@drawable/cloud70" />
+
+        <ImageButton
+            android:id="@+id/space_ship_shape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/space_ship"
+            android:src="@drawable/space_ship70" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:contentDescription="@string/space_ship"
-        android:src="@drawable/space_ship70"/>
+        android:gravity="top|center"
+        android:orientation="horizontal">
 
+        <ImageButton
+            android:id="@+id/cat_shape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/cloud"
+            android:src="@drawable/cat70" />
 
+        <ImageButton
+            android:id="@+id/fish_shape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/fish"
+            android:src="@drawable/fish70" />
+
+        <ImageButton
+            android:id="@+id/bubbles_shape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/bubbles"
+            android:src="@drawable/bubbles70" />
+
+        <ImageButton
+            android:id="@+id/shell_shape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/shell"
+            android:src="@drawable/shell70" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -21,6 +21,30 @@
         android:contentDescription="@string/space_ship"
         android:src="@drawable/espace70"/>
 
+    <ImageButton
+        android:id="@+id/beach"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:contentDescription="@string/beach"
+        android:src="@drawable/beach70"/>
+
+    <ImageButton
+        android:id="@+id/plain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:contentDescription="@string/plain"
+        android:src="@drawable/plain70"/>
+
+    <ImageButton
+        android:id="@+id/sea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:contentDescription="@string/sea"
+        android:src="@drawable/sea70"/>
+
 
 
 </LinearLayout>
