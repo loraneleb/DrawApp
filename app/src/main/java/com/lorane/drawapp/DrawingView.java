@@ -35,8 +35,6 @@ public class DrawingView extends View {
 
     private float brushSize, lastBrushSize;
 
-    private boolean erase=false;
-
     private boolean isBrush;
     private Bitmap shapeBitmap;
 
@@ -90,7 +88,7 @@ public class DrawingView extends View {
         //draw view
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
 
-        canvas.drawBitmap(background, 0, 0, null);
+        /*canvas.drawBitmap(background, 0, 0, null);
 
         for(int i = 0; i < draws.size(); i++){
             Object o = draws.get(i);
@@ -103,7 +101,7 @@ public class DrawingView extends View {
                 Bitmap shape = shapeStruct.GetShape();
                 canvas.drawBitmap(shape, shapeStruct.GetX()-shape.getWidth()/2, shapeStruct.GetY()-shape.getHeight()/2, null);
             }
-        }
+        }*/
 
         canvas.drawPath(drawPath, drawPaint);
     }
@@ -171,15 +169,12 @@ public class DrawingView extends View {
         return lastBrushSize;
     }
 
-    public void setErase(boolean isErase){
-        //set erase true or false
-        erase=isErase;
-        if(erase) drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        else drawPaint.setXfermode(null);
-    }
-
     public void eraseDraw(){
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        draws.clear();
+        undoneDraws.clear();
+        drawCanvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
+        drawCanvas.drawBitmap(background, 0, 0, null);
         invalidate();
     }
 
@@ -230,6 +225,25 @@ public class DrawingView extends View {
     public void onUndo(){
         if (draws.size() > 0){
             undoneDraws.add(draws.remove(draws.size()-1));
+
+            drawCanvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
+
+            drawCanvas.drawBitmap(background, 0, 0, null);
+
+            for(int i = 0; i < draws.size(); i++){
+                Object o = draws.get(i);
+                if(o.getClass() == PathStruct.class){
+                    PathStruct pathStruct = (PathStruct) o;
+                    drawCanvas.drawPath(pathStruct.GetPath(), pathStruct.GetPaint());
+                }
+                else if(o.getClass() == ShapeStruct.class){
+                    ShapeStruct shapeStruct = (ShapeStruct) o;
+                    Bitmap shape = shapeStruct.GetShape();
+                    drawCanvas.drawBitmap(shape, shapeStruct.GetX()-shape.getWidth()/2, shapeStruct.GetY()-shape.getHeight()/2, null);
+                }
+            }
+
+            drawCanvas.drawPath(drawPath, drawPaint);
             invalidate();
         }
     }
@@ -237,6 +251,25 @@ public class DrawingView extends View {
     public void onRedo(){
         if (undoneDraws.size() > 0){
             draws.add(undoneDraws.remove(undoneDraws.size()-1));
+
+            drawCanvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
+
+            drawCanvas.drawBitmap(background, 0, 0, null);
+
+            for(int i = 0; i < draws.size(); i++){
+                Object o = draws.get(i);
+                if(o.getClass() == PathStruct.class){
+                    PathStruct pathStruct = (PathStruct) o;
+                    drawCanvas.drawPath(pathStruct.GetPath(), pathStruct.GetPaint());
+                }
+                else if(o.getClass() == ShapeStruct.class){
+                    ShapeStruct shapeStruct = (ShapeStruct) o;
+                    Bitmap shape = shapeStruct.GetShape();
+                    drawCanvas.drawBitmap(shape, shapeStruct.GetX()-shape.getWidth()/2, shapeStruct.GetY()-shape.getHeight()/2, null);
+                }
+            }
+
+            drawCanvas.drawPath(drawPath, drawPaint);
             invalidate();
         }
     }
@@ -246,33 +279,26 @@ public class DrawingView extends View {
         switch(id){
             case R.id.space:
                 background = BitmapFactory.decodeResource(getResources(), R.drawable.espace);
-                draws.clear();
-                undoneDraws.clear();
                 break;
             case R.id.white:
                 background = BitmapFactory.decodeResource(getResources(), R.drawable.white);
-                draws.clear();
-                undoneDraws.clear();
                 break;
-
             case R.id.beach:
                 background = BitmapFactory.decodeResource(getResources(), R.drawable.beach);
-                draws.clear();
-                undoneDraws.clear();
                 break;
             case R.id.plain:
                 background = BitmapFactory.decodeResource(getResources(), R.drawable.plain);
-                draws.clear();
-                undoneDraws.clear();
                 break;
             case R.id.sea:
                 background = BitmapFactory.decodeResource(getResources(), R.drawable.sea);
-                draws.clear();
-                undoneDraws.clear();
                 break;
             default:
                 break;
         }
+        drawCanvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
+        drawCanvas.drawBitmap(background, 0, 0, null);
+        draws.clear();
+        undoneDraws.clear();
         invalidate();
     }
 }

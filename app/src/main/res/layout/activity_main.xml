@@ -30,22 +30,12 @@
 
             <ImageButton
                 android:id="@+id/draw_btn"
-                android:onClick="drawClicked"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#FFDEAD"
                 android:contentDescription="@string/brush"
                 android:src="@drawable/brush60" />
-
-            <ImageButton
-                android:id="@+id/erase_btn"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#FFDEAD"
-                android:contentDescription="@string/erase"
-                android:src="@drawable/eraser60" />
 
             <ImageButton
                 android:id="@+id/shape_btn"
